@@ -2,9 +2,12 @@ package com.marcinmejner.naukadaggerrxjavamvpmvvp.base;
 
 import android.app.Application;
 
+import com.marcinmejner.naukadaggerrxjavamvpmvvp.BuildConfig;
 import com.marcinmejner.naukadaggerrxjavamvpmvvp.di.ActivityInjector;
 
 import javax.inject.Inject;
+
+import timber.log.Timber;
 
 public class MyApplication extends Application {
     private static final String TAG = "MyApplication";
@@ -22,6 +25,10 @@ public class MyApplication extends Application {
                 .applicationModule(new ApplicationModule(this))
                 .build();
         component.inject(this);
+
+        if(BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        }
     }
 
     public ActivityInjector getActivityInjector() {
