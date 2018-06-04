@@ -16,38 +16,37 @@ import timber.log.Timber;
 @ScreenScore
 class TrendingReposViewModel {
 
-    private  final BehaviorRelay<List<Repo>> reposRelay = BehaviorRelay.create();
-    private  final BehaviorRelay<Integer> errorRelay = BehaviorRelay.create();
-    private  final BehaviorRelay<Boolean> loadingRelay = BehaviorRelay.create();
+    private final BehaviorRelay<List<Repo>> reposRelay = BehaviorRelay.create();
+    private final BehaviorRelay<Integer> errorRelay = BehaviorRelay.create();
+    private final BehaviorRelay<Boolean> loadingRelay = BehaviorRelay.create();
 
     @Inject
-    TrendingReposViewModel(){
+    TrendingReposViewModel() {
 
     }
 
-
-    Observable<Boolean> loading(){
+    Observable<Boolean> loading() {
         return loadingRelay;
     }
 
-    Observable<List<Repo>> repos(){
+    Observable<List<Repo>> repos() {
         return reposRelay;
     }
 
-    Observable<Integer> error(){
+    Observable<Integer> error() {
         return errorRelay;
     }
 
-    Consumer<Boolean> loadingRepos(){
+    Consumer<Boolean> loadingUpdated() {
         return loadingRelay;
     }
 
-    Consumer<List<Repo>> reposUpdated(){
+    Consumer<List<Repo>> reposUpdated() {
         errorRelay.accept(-1);
         return reposRelay;
     }
 
-    Consumer<Throwable> onError(){
+    Consumer<Throwable> onError() {
         return throwable -> {
             Timber.e(throwable, "Error loading Repos");
             errorRelay.accept(R.string.api_error_repos);

@@ -32,10 +32,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     private Router router;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
-        if(savedInstanceState != null){
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
             instanceId = savedInstanceState.getString(INSTANCE_ID_KEY);
-        }else{
+        } else {
             instanceId = UUID.randomUUID().toString();
         }
 
@@ -51,9 +51,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         router = Conductor.attachRouter(this, screenContainer, savedInstanceState);
         screenNavigator.initWithRouter(router, initialScreen());
         monitorBackStack();
+        super.onCreate(savedInstanceState);
+    }
 
-
-        super.onCreate(savedInstanceState, persistentState);
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(INSTANCE_ID_KEY, instanceId);
     }
 
     @Override
@@ -61,19 +65,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         if(!screenNavigator.pop()){
             super.onBackPressed();
         }
-
     }
 
     @LayoutRes
     protected abstract int layoutRes();
 
     protected abstract Controller initialScreen();
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString(INSTANCE_ID_KEY, instanceId);
-    }
 
     public String getInstanceId() {
         return instanceId;

@@ -2,11 +2,12 @@ package com.marcinmejner.naukadaggerrxjavamvpmvvp.trending;
 
 import com.marcinmejner.naukadaggerrxjavamvpmvvp.data.RepoRequester;
 import com.marcinmejner.naukadaggerrxjavamvpmvvp.di.ScreenScore;
+import com.marcinmejner.naukadaggerrxjavamvpmvvp.model.Repo;
 
 import javax.inject.Inject;
 
 @ScreenScore
-public class TrendingReposPresenter {
+public class TrendingReposPresenter implements RepoAdapter.RepoClickedListener {
 
     private final TrendingReposViewModel viewModel;
     private final RepoRequester repoRequester;
@@ -25,4 +26,8 @@ public class TrendingReposPresenter {
                 .subscribe(viewModel.reposUpdated(), viewModel.onError());
     }
 
+    @Override
+    public void onRepoClicked(Repo repo) {
+
+    }
 }
